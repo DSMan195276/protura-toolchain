@@ -2,7 +2,7 @@
 
 echo "$0 <protura-root> <protura-prefix> <toolchain-dir>"
 
-if [ "$#" -ne 4 ]; then
+if [ "$#" -ne 3 ]; then
     echo "Error: Please supply correct arguments"
     exit 1
 fi
