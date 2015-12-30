@@ -23,6 +23,7 @@ cd ./binutils-build
 ../binutils/configure --target=i686-protura --prefix="$TOOLCHAIN_DIR" --with-sysroot="$PROTURA_ROOT" --disable-werror
 make
 make install
+ln -s "$TOOLCHAIN_DIR/bin/i686-protura-gcc" "$TOOLCHAIN_DIR/bin/i686-protura-cc"
 cd ..
 
 PATH="$PATH:$TOOLCHAIN_DIR/bin"
