@@ -16,16 +16,16 @@ echo "Protura root directory: $PROTURA_ROOT"
 echo "Protura install prefix: $PROTURA_PREFIX"
 echo "Toolchain directory:    $TOOLCHAIN_DIR"
 
+rm -fr ./newlib-build
 mkdir -p ./newlib-build
 cd ./newlib-build
 ../newlib/configure \
     --target=i686-protura \
     --prefix="$PROTURA_PREFIX" \
     --with-sysroot="$PROTURA_ROOT" \
+    --enable-newlib-elix-level=4 \
     --disable-werror
 make
 make DESTDIR="$PROTURA_ROOT" install
-ln -s "$PROTURA_ROOT/$PROTURA_PREFIX/i686-protura/lib" "$PROTURA_ROOT/$PROTURA_PREFIX/lib"
-ln -s "$PROTURA_ROOT/$PROTURA_PREFIX/i686-protura/include" "$PROTURA_ROOT/$PROTURA_PREFIX/include"
 cd ..
 
