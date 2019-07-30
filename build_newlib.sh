@@ -21,6 +21,7 @@ echo "Toolchain directory:    $TOOLCHAIN_DIR"
 rm -fr ./newlib-build
 mkdir -p ./newlib-build
 cd ./newlib-build
+
 ../newlib/configure \
     --target=$PROTURA_TARGET \
     --prefix="$PROTURA_PREFIX" \
@@ -28,8 +29,14 @@ cd ./newlib-build
     --enable-newlib-elix-level=4 \
     --disable-werror \
     --disable-newlib-io-float \
-    --disable-libgloss
-make --quiet
-make --quiet DESTDIR="$PROTURA_ROOT" install
+    --disable-libgloss \
+    || exit 1
+
+make --quiet \
+    || exit 1
+
+make --quiet DESTDIR="$PROTURA_ROOT" install \
+    || exit 1
+
 cd ..
 
