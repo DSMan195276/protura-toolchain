@@ -1,17 +1,19 @@
 #!/bin/bash
 
-echo "$0 <protura-root> <protura-prefix> <toolchain-dir>"
+echo "$0 <protura-target> <protura-root> <protura-prefix> <toolchain-dir>"
 
-if [ "$#" -ne 3 ]; then
+if [ "$#" -ne 4 ]; then
     echo "Error: Please supply correct arguments"
     exit 1
 fi
 
-PROTURA_ROOT="`readlink -f "$1"`"
-PROTURA_PREFIX="`readlink -f "$2"`"
-TOOLCHAIN_DIR="`readlink -f "$3"`"
+PROTURA_TARGET=$1
+PROTURA_ROOT="`readlink -f "$2"`"
+PROTURA_PREFIX="`readlink -f "$3"`"
+TOOLCHAIN_DIR="`readlink -f "$4"`"
 
 echo "  Building Protura toolchain..."
+echo "Protura target:         $PROTURA_TARGET"
 echo "Protura root directory: $PROTURA_ROOT"
 echo "Protura install prefix: $PROTURA_PREFIX"
 echo "Toolchain directory:    $TOOLCHAIN_DIR"
@@ -20,10 +22,10 @@ rm -fr ./binutils-build ./gcc-build ./newlib-build
 
 mkdir ./binutils-build
 cd ./binutils-build
-../binutils/configure --target=i686-protura --prefix="$TOOLCHAIN_DIR" --with-sysroot="$PROTURA_ROOT" --disable-werror
+../binutils/configure --target=$PROTURA_TARGET --prefix="$TOOLCHAIN_DIR" --with-sysroot="$PROTURA_ROOT" --disable-werror
 make
 make install
-ln -s "$TOOLCHAIN_DIR/bin/i686-protura-gcc" "$TOOLCHAIN_DIR/bin/i686-protura-cc"
+ln -s "$TOOLCHAIN_DIR/bin/$PROTURA_TARGET-gcc" "$TOOLCHAIN_DIR/bin/$PROTURA_TARGET-cc"
 cd ..
 
 PATH="$PATH:$TOOLCHAIN_DIR/bin"
@@ -31,13 +33,13 @@ PATH="$PATH:$TOOLCHAIN_DIR/bin"
 mkdir ./gcc-build
 cd ./gcc-build
 ../gcc/configure \
-    --target=i686-protura \
+    --target=$PROTURA_TARGET \
     --prefix="$TOOLCHAIN_DIR" \
     --with-sysroot="$PROTURA_ROOT" \
     --disable-werror \
     --disable-nls \
     --with-newlib \
-    --enable-languages=c
+    --enable-languages=c,c++
 make all-gcc
 make install-gcc
 cd ..
