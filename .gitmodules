@@ -1,9 +1,12 @@
 [submodule "gcc"]
 	path = gcc
-	url = https://github.com/DSMan195276/protura-gcc
+	url = https://github.com/mkilgore/protura-gcc
+	branch = protura
 [submodule "newlib"]
 	path = newlib
-	url = https://github.com/DSMan195276/protura-newlib
+	url = https://github.com/mkilgore/protura-newlib
+	branch = newlib-2.3.0
 [submodule "binutils"]
 	path = binutils
-	url = https://github.com/DSMan195276/protura-binutils
+	url = https://github.com/mkilgore/protura-binutils
+	branch = protura
