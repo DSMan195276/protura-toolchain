@@ -1,8 +1,8 @@
 #!/bin/bash
 
-echo "$0 <protura-target> <protura-root> <protura-prefix> <toolchain-dir>"
+echo "$0 <protura-target> <protura-root> <protura-prefix> <toolchain-dir> <make flags>"
 
-if [ "$#" -ne 4 ]; then
+if [ "$#" -lt 4 ]; then
     echo "Error: Please supply correct arguments"
     exit 1
 fi
@@ -11,22 +11,29 @@ PROTURA_TARGET=$1
 PROTURA_ROOT="`readlink -f "$2"`"
 PROTURA_PREFIX="`readlink -f "$3"`"
 TOOLCHAIN_DIR="`readlink -f "$4"`"
+MAKE_FLAGS="$5"
 
 echo "  Building Protura toolchain..."
 echo "Protura target:         $PROTURA_TARGET"
 echo "Protura root directory: $PROTURA_ROOT"
 echo "Protura install prefix: $PROTURA_PREFIX"
 echo "Toolchain directory:    $TOOLCHAIN_DIR"
+echo "Make flags:             $MAKE_FLAGS"
 
 rm -fr ./binutils-build ./gcc-build ./newlib-build
 
 mkdir ./binutils-build
 cd ./binutils-build
 
-../binutils/configure --target=$PROTURA_TARGET --prefix="$TOOLCHAIN_DIR" --with-sysroot="$PROTURA_ROOT" --disable-werror \
+../binutils/configure \
+    --target=$PROTURA_TARGET \
+    --prefix="$TOOLCHAIN_DIR" \
+    --with-sysroot="$PROTURA_ROOT" \
+    --disable-werror \
+    --disable-gdb \
     || exit 1
 
-make \
+make $MAKE_FLAGS \
     || exit 1
 
 make install \
@@ -50,7 +57,7 @@ cd ./gcc-build
     --enable-languages=c,c++ \
     || exit 1
 
-make all-gcc \
+make all-gcc $MAKE_FLAGS \
     || exit 1
 
 make install-gcc \
@@ -62,7 +69,7 @@ cd ..
     || (echo "Error building newlib"; exit 1)
 
 cd ./gcc-build
-make all-target-libgcc \
+make all-target-libgcc $MAKE_FLAGS \
     || exit 1
 
 make install-target-libgcc \

@@ -1,8 +1,8 @@
 #!/bin/bash
 
-echo "$0 <protura-target> <protura-root> <protura-prefix> <toolchain-dir>"
+echo "$0 <protura-target> <protura-root> <protura-prefix> <toolchain-dir> <make flags>"
 
-if [ "$#" -ne 4 ]; then
+if [ "$#" -lt 4 ]; then
     echo "Error: Please supply correct arguments"
     exit 1
 fi
@@ -11,12 +11,14 @@ PROTURA_TARGET=$1
 PROTURA_ROOT="`readlink -f "$2"`"
 PROTURA_PREFIX="`readlink -f "$3"`"
 TOOLCHAIN_DIR="`readlink -f "$4"`"
+MAKE_FLAGS="$5"
 
 echo "  Building Protura newlib..."
 echo "Protura target:         $PROTURA_TARGET"
 echo "Protura root directory: $PROTURA_ROOT"
 echo "Protura install prefix: $PROTURA_PREFIX"
 echo "Toolchain directory:    $TOOLCHAIN_DIR"
+echo "Make flags:             $MAKE_FLAGS"
 
 rm -fr ./newlib-build
 mkdir -p ./newlib-build
@@ -32,7 +34,7 @@ cd ./newlib-build
     --disable-libgloss \
     || exit 1
 
-make --quiet \
+make --quiet $MAKE_FLAGS \
     || exit 1
 
 make --quiet DESTDIR="$PROTURA_ROOT" install \
