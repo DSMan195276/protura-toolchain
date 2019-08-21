@@ -75,5 +75,11 @@ make all-target-libgcc $MAKE_FLAGS \
 make install-target-libgcc \
     || exit 1
 
+make all-target-libstdc++-v3 $MAKE_FLAGS \
+    || exit 1
+
+make install-target-libstdc++-v3 $MAKE_FLAGS \
+    || exit 1
+
 cd ..
 
