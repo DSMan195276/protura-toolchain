@@ -12,9 +12,11 @@ PROTURA_ROOT="`readlink -f "$2"`"
 PROTURA_PREFIX="`readlink -f "$3"`"
 TOOLCHAIN_DIR="`readlink -f "$4"`"
 MAKE_FLAGS="$5"
+HOST_TARGET=`gcc -dumpmachine`
 
 echo "  Building Protura toolchain..."
 echo "Protura target:         $PROTURA_TARGET"
+echo "Host target:            $HOST_TARGET"
 echo "Protura root directory: $PROTURA_ROOT"
 echo "Protura install prefix: $PROTURA_PREFIX"
 echo "Toolchain directory:    $TOOLCHAIN_DIR"
@@ -26,6 +28,8 @@ mkdir ./binutils-build
 cd ./binutils-build
 
 ../binutils/configure \
+    --host=$HOST_TARGET \
+    --build=$HOST_TARGET \
     --target=$PROTURA_TARGET \
     --prefix="$TOOLCHAIN_DIR" \
     --with-sysroot="$PROTURA_ROOT" \
@@ -48,6 +52,8 @@ mkdir ./gcc-build
 cd ./gcc-build
 
 ../gcc/configure \
+    --host=$HOST_TARGET \
+    --build=$HOST_TARGET \
     --target=$PROTURA_TARGET \
     --prefix="$TOOLCHAIN_DIR" \
     --with-sysroot="$PROTURA_ROOT" \

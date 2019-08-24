@@ -12,9 +12,11 @@ PROTURA_ROOT="`readlink -f "$2"`"
 PROTURA_PREFIX="`readlink -f "$3"`"
 TOOLCHAIN_DIR="`readlink -f "$4"`"
 MAKE_FLAGS="$5"
+HOST_TARGET=`gcc -dumpmachine`
 
 echo "  Building Protura newlib..."
 echo "Protura target:         $PROTURA_TARGET"
+echo "Host target:            $HOST_TARGET"
 echo "Protura root directory: $PROTURA_ROOT"
 echo "Protura install prefix: $PROTURA_PREFIX"
 echo "Toolchain directory:    $TOOLCHAIN_DIR"
@@ -25,6 +27,8 @@ mkdir -p ./newlib-build
 cd ./newlib-build
 
 ../newlib/configure \
+    --host=$HOST_TARGET \
+    --build=$HOST_TARGET \
     --target=$PROTURA_TARGET \
     --prefix="$PROTURA_PREFIX" \
     --with-sysroot="$PROTURA_ROOT" \
