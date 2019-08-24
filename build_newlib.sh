@@ -32,6 +32,7 @@ cd ./newlib-build
     --target=$PROTURA_TARGET \
     --prefix="$PROTURA_PREFIX" \
     --with-sysroot="$PROTURA_ROOT" \
+    --disable-maintainer-mode \
     --enable-newlib-elix-level=4 \
     --disable-werror \
     --disable-newlib-io-float \

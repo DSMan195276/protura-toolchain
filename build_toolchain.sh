@@ -33,6 +33,7 @@ cd ./binutils-build
     --target=$PROTURA_TARGET \
     --prefix="$TOOLCHAIN_DIR" \
     --with-sysroot="$PROTURA_ROOT" \
+    --disable-maintainer-mode \
     --disable-werror \
     --disable-gdb \
     || exit 1
@@ -57,6 +58,7 @@ cd ./gcc-build
     --target=$PROTURA_TARGET \
     --prefix="$TOOLCHAIN_DIR" \
     --with-sysroot="$PROTURA_ROOT" \
+    --disable-maintainer-mode \
     --disable-werror \
     --disable-nls \
     --with-newlib \
