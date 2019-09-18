@@ -5,7 +5,7 @@
 [submodule "newlib"]
 	path = newlib
 	url = https://github.com/mkilgore/protura-newlib
-	branch = newlib-2.3.0
+	branch = protura
 [submodule "binutils"]
 	path = binutils
 	url = https://github.com/mkilgore/protura-binutils
